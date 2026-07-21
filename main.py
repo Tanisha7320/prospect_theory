@@ -12,6 +12,26 @@ def train_q_learning(
     epsilon_decay=0.995,  # Decay rate per episode
     min_epsilon=0.01,
 ):
+    """ Trains a Q-learning agent to navigate a Frozen Lake grid through trial and error.
+
+    The objective is to navigate to the treasure chest while avoiding ice holes.
+    The agent maintains a table of scores (Q-table) for moving Up, Down, Left, or Right
+    from each tile.
+
+    Initially, all scores are 0. The agent moves at random to explore the map,
+    gradually learning to select optimal moves based on the highest accumulated scores.
+
+    Parameters:
+        env_name (str): Gymnasium environment name.
+        episodes (int): Total training runs.
+        alpha (float): Learning rate (how fast new feedback overwrites old scores).
+        gamma (float): Discount factor for future rewards.
+        epsilon (float): Starting probability of taking a random exploratory move.
+        epsilon_decay (float): Multiplicative decay rate for epsilon per episode.
+        min_epsilon (float): Minimum threshold for random exploration.
+
+    Returns:
+        tuple: (q_table, episode_returns) trained Q-table and list of total returns per episode."""
     # 1. Initialize environment (is_slippery=True introduces transition uncertainty)
     env = gym.make(env_name, is_slippery=True)
     n_states = env.observation_space.n
@@ -98,3 +118,4 @@ if __name__ == "__main__":
     # Train the agent and plot baseline performance
     q_table, returns = train_q_learning(episodes=2000)
     plot_returns(returns)
+    
